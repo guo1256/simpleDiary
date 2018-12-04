@@ -50,11 +50,8 @@ public class thread_scanDiary extends JFrame implements Runnable {
 		Object[][] diary = new Object[num][2];
 		for (int i = 0; i < num; i++) {
 			try {
+				Diary d = Diary.read(calenda.Diary.PATH+"/"+Diaries[i].getName());
 				String time = Diaries[i].getName().replaceFirst(".dat", "");
-				FileInputStream fis = new FileInputStream(Diaries[i]);
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				Diary d = (calenda.Diary) ois.readObject();
-				ois.close();
 				String theme = d.getTheme();
 				diary[i][0] = time;
 				diary[i][1] = theme;
@@ -84,9 +81,9 @@ public class thread_scanDiary extends JFrame implements Runnable {
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		jtable.setDefaultRenderer(Object.class, tcr);
 		JScrollPane jsp = new JScrollPane(jtable);
+
 		//查看菜单
 		jmiScan.addActionListener(new ActionListener() {
-			
 			public void actionPerformed(ActionEvent e) {
 				if(jtable.getSelectedRow()>=0){
 					int index = jtable.getSelectedRow();
@@ -142,6 +139,7 @@ public class thread_scanDiary extends JFrame implements Runnable {
 				}		
 			}
 		});
+
 		//删除菜单
 		jmiDelete.addActionListener(new ActionListener() {
 			

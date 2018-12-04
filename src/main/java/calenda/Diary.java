@@ -34,6 +34,12 @@ public class Diary implements Serializable {
 	
 	//写
 	public void write() throws IOException{
+		try {
+			Ende ed = new Ende();
+			content = ed.encrypt(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		File file = new File(fileName);
 		FileOutputStream fos = new FileOutputStream(file);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -47,6 +53,12 @@ public class Diary implements Serializable {
 		FileInputStream fis = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		Diary d = (Diary)ois.readObject();
+		try {
+			Ende ed = new Ende();
+			d.content = ed.decrypt(d.content);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		ois.close();
 		return d;
 	}	
